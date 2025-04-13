@@ -8,9 +8,17 @@
 </head>
 <body>
     <div class="console-container">
-        <div class="console">
-            Hello World
+        <div class="menu">
+            <ul>
+                <li onclick="changeContent('about')">About</li>
+                <li onclick="changeContent('projects')">Projects</li>
+                <li onclick="changeContent('contact')">Contact</li>
+            </ul>
+        </div>
+        <div class="console" id="console-content">
+            Select an option from the menu to display content here.
         </div>
     </div>
+    <script src="script.js"></script>
 </body>
 </html>
