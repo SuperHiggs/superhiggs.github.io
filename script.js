@@ -1,32 +1,3 @@
-// Typing effect function
-function typeWriter(element, text, speed = 30) {
-    let i = 0;
-    element.innerHTML = '';
-    
-    function type() {
-        if (i < text.length) {
-            if (text.charAt(i) === '<') {
-                // Handle HTML tags
-                const closingTag = text.indexOf('>', i);
-                if (closingTag !== -1) {
-                    element.innerHTML += text.substring(i, closingTag + 1);
-                    i = closingTag + 1;
-                } else {
-                    // No closing tag found, treat as regular character
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                }
-            } else {
-                element.innerHTML += text.charAt(i);
-                i++;
-            }
-            setTimeout(type, speed);
-        }
-    }
-    
-    type();
-}
-
 // Handle keyboard navigation for menu items
 function handleMenuKeyDown(event, option) {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -36,6 +7,7 @@ function handleMenuKeyDown(event, option) {
 }
 
 // Smooth content transition with fade effect
+// Note: All content is hardcoded and trusted, so innerHTML usage is safe here
 function changeContent(option) {
     const consoleContent = document.getElementById('console-content');
     

@@ -291,19 +291,6 @@ body::before {
     animation: pulse 1.5s ease-in-out infinite;
 }
 
-/* Content fade transition */
-.console.fade-out {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-}
-
-.console.fade-in {
-    opacity: 1;
-    transform: translateY(0);
-    transition: all 0.3s ease;
-}
-
 /* Responsive design */
 @media (max-width: 768px) {
     .console-container {
