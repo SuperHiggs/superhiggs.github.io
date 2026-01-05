@@ -3,22 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Super Higgs</title>
+    <meta name="description" content="Super Higgs - Senior Software Engineer & Principal Consultant Portfolio">
+    <meta name="theme-color" content="#00d9ff">
+    <title>Super Higgs - Terminal</title>
+    
+    <!-- Modern Monospace Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="console-container">
-        <div class="menu">
+    <div class="console-container" role="main">
+        <nav class="menu" role="navigation" aria-label="Main navigation">
             <ul>
-                <li onclick="changeContent('about')">About</li>
-                <li onclick="changeContent('projects')">Projects</li>
-                <li onclick="changeContent('github')">GitHub Status</li>
-                <li onclick="changeContent('contact')">Contact</li>
+                <li onclick="changeContent('about')" role="button" tabindex="0" aria-label="View About section">About</li>
+                <li onclick="changeContent('projects')" role="button" tabindex="0" aria-label="View Projects section">Projects</li>
+                <li onclick="changeContent('github')" role="button" tabindex="0" aria-label="View GitHub Status">GitHub Status</li>
+                <li onclick="changeContent('contact')" role="button" tabindex="0" aria-label="View Contact information">Contact</li>
             </ul>
-        </div>
-        <div class="console" id="console-content">
-            Select an option from the menu to display content here.
-        </div>
+        </nav>
+        <main class="console" id="console-content" role="region" aria-live="polite" aria-label="Content display area">
+            <h3>Welcome to Super Higgs Terminal</h3>
+            <p>Select an option from the menu to explore.</p>
+        </main>
     </div>
     <script src="script.js"></script>
 </body>

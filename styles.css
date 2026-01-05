@@ -1,31 +1,84 @@
+/* CSS Custom Properties for Modern Theming */
+:root {
+    --primary-color: #00d9ff;
+    --secondary-color: #00ffff;
+    --accent-color: #0099ff;
+    --bg-dark: #0a0e27;
+    --bg-darker: #050811;
+    --bg-console: rgba(10, 14, 39, 0.85);
+    --bg-menu: rgba(15, 20, 45, 0.9);
+    --text-primary: #e0f7ff;
+    --text-secondary: #00d9ff;
+    --border-color: rgba(0, 217, 255, 0.5);
+    --glow-color: rgba(0, 217, 255, 0.4);
+    --font-main: 'Fira Code', 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+}
+
 body, html {
-    background-color: black;
+    background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 50%, #0d1128 100%);
     margin: 0;
     height: 100%;
-    font-family: monospace;
-    color: green;
-    display: flex; /* Use flexbox to center the container */
-    justify-content: center; /* Center horizontally */
-    align-items: center; /* Center vertically */
+    font-family: var(--font-main);
+    color: var(--text-primary);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Animated background pattern */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 217, 255, 0.03) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(0, 255, 255, 0.03) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
 }
 
 .console-container {
     display: flex;
-    height: 80vh; /* Adjust height as needed */
-    width: 80vw; /* Adjust width as needed */
-    border: 2px solid #00FF00; /* Optional: border for the container */
-    border-radius: 10px;
+    height: 85vh;
+    width: 90vw;
+    max-width: 1400px;
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 0 10px #00FF00;
+    box-shadow: 
+        0 0 20px var(--glow-color),
+        0 0 40px rgba(0, 217, 255, 0.2),
+        inset 0 0 60px rgba(0, 217, 255, 0.05);
+    backdrop-filter: blur(10px);
+    background: var(--bg-console);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.console-container:hover {
+    box-shadow: 
+        0 0 30px var(--glow-color),
+        0 0 60px rgba(0, 217, 255, 0.3),
+        inset 0 0 60px rgba(0, 217, 255, 0.08);
+    border-color: var(--primary-color);
 }
 
 .menu {
-    background-color: #111;
-    color: green;
-    width: 25%; /* Adjust width of the menu */
-    padding: 10px;
+    background: var(--bg-menu);
+    color: var(--text-secondary);
+    width: 280px;
+    min-width: 280px;
+    padding: 24px 16px;
     box-sizing: border-box;
-    border-right: 2px solid #00FF00;
+    border-right: 2px solid var(--border-color);
+    backdrop-filter: blur(10px);
+    overflow-y: auto;
 }
 
 .menu ul {
@@ -35,54 +88,256 @@ body, html {
 }
 
 .menu li {
-    padding: 10px;
+    padding: 16px 20px;
+    margin: 8px 0;
     cursor: pointer;
-    border: 1px solid transparent;
+    border: 2px solid transparent;
+    border-radius: 10px;
     text-align: center;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.menu li::before {
+    content: '>';
+    position: absolute;
+    left: 10px;
+    opacity: 0;
+    transition: all 0.3s ease;
+    color: var(--primary-color);
 }
 
 .menu li:hover {
-    background-color: #222;
-    border: 1px solid #00FF00;
+    background: linear-gradient(135deg, rgba(0, 217, 255, 0.15), rgba(0, 255, 255, 0.1));
+    border: 2px solid var(--primary-color);
+    box-shadow: 
+        0 0 15px var(--glow-color),
+        inset 0 0 15px rgba(0, 217, 255, 0.1);
+    transform: translateX(5px);
+    padding-left: 30px;
+}
+
+.menu li:hover::before {
+    opacity: 1;
+    left: 15px;
+}
+
+.menu li:active {
+    transform: translateX(5px) scale(0.98);
 }
 
 .console {
-    background-color: black;
-    color: green;
-    padding: 10px;
-    width: 75%; /* Adjust width of the console */
+    background: transparent;
+    color: var(--text-primary);
+    padding: 32px;
+    width: 100%;
     overflow-y: auto;
     box-sizing: border-box;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+/* Custom scrollbar */
+.console::-webkit-scrollbar,
+.menu::-webkit-scrollbar {
+    width: 10px;
+}
+
+.console::-webkit-scrollbar-track,
+.menu::-webkit-scrollbar-track {
+    background: rgba(0, 217, 255, 0.05);
+    border-radius: 10px;
+}
+
+.console::-webkit-scrollbar-thumb,
+.menu::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--glow-color);
+}
+
+.console::-webkit-scrollbar-thumb:hover,
+.menu::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* Typography enhancements */
+.console h3 {
+    color: var(--secondary-color);
+    font-size: 24px;
+    margin: 0 0 20px 0;
+    font-weight: 600;
+    text-shadow: 0 0 10px var(--glow-color);
+    letter-spacing: 1px;
+}
+
+.console ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.console ul li {
+    padding: 10px 0;
+    padding-left: 24px;
+    position: relative;
+    transition: all 0.2s ease;
+}
+
+.console ul li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--primary-color);
+    font-size: 18px;
+}
+
+.console ul li:hover {
+    padding-left: 30px;
+    color: var(--secondary-color);
 }
 
 /* GitHub status styles */
 .repo-status {
-    margin: 15px 0;
+    margin: 24px 0;
+    padding: 20px;
+    background: rgba(0, 217, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    animation: slideIn 0.4s ease-out;
+}
+
+.repo-status:hover {
+    background: rgba(0, 217, 255, 0.08);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 .repo-status h4 {
-    color: #00FF00;
-    margin: 10px 0 5px 0;
+    color: var(--secondary-color);
+    margin: 0 0 12px 0;
+    font-size: 18px;
+    font-weight: 600;
+    text-shadow: 0 0 8px var(--glow-color);
 }
 
 .repo-status p {
-    margin: 5px 0;
-    line-height: 1.6;
+    margin: 8px 0;
+    line-height: 1.8;
+    color: var(--text-primary);
 }
 
 .repo-status a {
-    color: #00FF00;
+    color: var(--primary-color);
     text-decoration: none;
-    border-bottom: 1px dotted #00FF00;
+    border-bottom: 1px dotted var(--primary-color);
+    transition: all 0.3s ease;
 }
 
 .repo-status a:hover {
-    color: #00CC00;
-    text-shadow: 0 0 5px #00FF00;
+    color: var(--secondary-color);
+    text-shadow: 0 0 8px var(--glow-color);
+    border-bottom-style: solid;
 }
 
 .repo-status hr {
     border: 0;
-    border-top: 1px dashed #00FF00;
-    margin: 15px 0;
+    border-top: 1px dashed var(--border-color);
+    margin: 20px 0;
+    opacity: 0.5;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Loading animation */
+.loading {
+    display: inline-block;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Content fade transition */
+.console.fade-out {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+}
+
+.console.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .console-container {
+        flex-direction: column;
+        height: 95vh;
+        width: 95vw;
+    }
+    
+    .menu {
+        width: 100%;
+        min-width: auto;
+        border-right: none;
+        border-bottom: 2px solid var(--border-color);
+        padding: 16px;
+    }
+    
+    .menu ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .menu li {
+        flex: 1;
+        min-width: calc(50% - 8px);
+        padding: 12px 16px;
+        font-size: 14px;
+    }
+    
+    .console {
+        padding: 20px;
+        font-size: 14px;
+    }
+    
+    .console h3 {
+        font-size: 20px;
+    }
 }
