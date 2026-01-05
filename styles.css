@@ -54,3 +54,35 @@ body, html {
     overflow-y: auto;
     box-sizing: border-box;
 }
+
+/* GitHub status styles */
+.repo-status {
+    margin: 15px 0;
+}
+
+.repo-status h4 {
+    color: #00FF00;
+    margin: 10px 0 5px 0;
+}
+
+.repo-status p {
+    margin: 5px 0;
+    line-height: 1.6;
+}
+
+.repo-status a {
+    color: #00FF00;
+    text-decoration: none;
+    border-bottom: 1px dotted #00FF00;
+}
+
+.repo-status a:hover {
+    color: #00CC00;
+    text-shadow: 0 0 5px #00FF00;
+}
+
+.repo-status hr {
+    border: 0;
+    border-top: 1px dashed #00FF00;
+    margin: 15px 0;
+}
