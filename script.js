@@ -1,37 +1,70 @@
-function changeContent(option) {
-    const consoleContent = document.getElementById('console-content');
-    if (option === 'about') {
-        consoleContent.innerHTML = `
-            With over 8 years of experience as a senior engineer and principal consultant, I am a software development expert and innovator who creates exceptional quality software that pushes the limits of today's technology. I have a certification in C# and .NET, and I use my skills in talent management and consultation to lead and support teams, clients, and projects across various industries and domains.
-            <br><br>
-            I am passionate about software as a storytelling tool that reflects a strong, stable, and visionary organizational roadmap, where benefits are realized in the real world. As a team player, I thrive in an environment that values collaboration, knowledge sharing, and personal growth. At Journey2, I work alongside talented and driven professionals who share the same drive to innovate and make an impact.
-        `;
-    } else if (option === 'projects') {
-        consoleContent.innerHTML = `
-            <h3>Projects</h3>
-            <ul>
-                <li>Project 1: Innovative AI System</li>
-                <li>Project 2: Scalable Web Application</li>
-                <li>Project 3: Cloud-Based Solution</li>
-            </ul>
-        `;
-    } else if (option === 'github') {
-        consoleContent.innerHTML = `
-            <h3>GitHub Repository Status</h3>
-            <p>Loading...</p>
-        `;
-        fetchGitHubStatus();
-    } else if (option === 'contact') {
-        consoleContent.innerHTML = `
-            <h3>Contact</h3>
-            <p>Email: superhiggs@example.com</p>
-            <p>Phone: +123 456 7890</p>
-        `;
+// Handle keyboard navigation for menu items
+function handleMenuKeyDown(event, option) {
+    if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        changeContent(option);
     }
 }
 
+// Smooth content transition with fade effect
+// Note: All content is hardcoded and trusted, so innerHTML usage is safe here
+function changeContent(option) {
+    const mainContent = document.getElementById('main-content');
+    
+    // Fade out
+    mainContent.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    mainContent.style.opacity = '0';
+    mainContent.style.transform = 'translateY(-10px)';
+    
+    setTimeout(() => {
+        let content = '';
+        
+        if (option === 'about') {
+            content = `
+                <h3>About Me</h3>
+                <p>With over 8 years of experience as a senior engineer and principal consultant, I am a software development expert and innovator who creates exceptional quality software that pushes the limits of today's technology. I have a certification in C# and .NET, and I use my skills in talent management and consultation to lead and support teams, clients, and projects across various industries and domains.</p>
+                <br>
+                <p>I am passionate about software as a storytelling tool that reflects a strong, stable, and visionary organizational roadmap, where benefits are realized in the real world. As a team player, I thrive in an environment that values collaboration, knowledge sharing, and personal growth. At Journey2, I work alongside talented and driven professionals who share the same drive to innovate and make an impact.</p>
+            `;
+        } else if (option === 'projects') {
+            content = `
+                <h3>Projects</h3>
+                <ul>
+                    <li>Project 1: Innovative AI System</li>
+                    <li>Project 2: Scalable Web Application</li>
+                    <li>Project 3: Cloud-Based Solution</li>
+                </ul>
+            `;
+        } else if (option === 'github') {
+            content = `
+                <h3>GitHub Repository Status</h3>
+                <p class="loading">Loading repository information...</p>
+            `;
+        } else if (option === 'contact') {
+            content = `
+                <h3>Contact</h3>
+                <p>📧 Email: superhiggs@example.com</p>
+                <p>📱 Phone: +123 456 7890</p>
+            `;
+        }
+        
+        mainContent.innerHTML = content;
+        
+        // Fade in
+        setTimeout(() => {
+            mainContent.style.opacity = '1';
+            mainContent.style.transform = 'translateY(0)';
+            
+            // Fetch GitHub status if needed
+            if (option === 'github') {
+                fetchGitHubStatus();
+            }
+        }, 50);
+    }, 300);
+}
+
 async function fetchGitHubStatus() {
-    const consoleContent = document.getElementById('console-content');
+    const mainContent = document.getElementById('main-content');
     const repos = ['superhiggs.github.io']; // Add more repos as needed
     
     try {
@@ -60,11 +93,25 @@ async function fetchGitHubStatus() {
             `;
         }
         
-        consoleContent.innerHTML = statusHTML;
+        // Smooth transition for GitHub data
+        mainContent.style.opacity = '0';
+        setTimeout(() => {
+            mainContent.innerHTML = statusHTML;
+            mainContent.style.opacity = '1';
+        }, 200);
+        
     } catch (error) {
-        consoleContent.innerHTML = `
+        mainContent.innerHTML = `
             <h3>GitHub Repository Status</h3>
-            <p style="color: red;">Error loading repository status: ${error.message}</p>
+            <p style="color: var(--primary-color);">Unable to load repository status. Please try again later.</p>
         `;
     }
 }
+
+// Smooth scrolling
+document.addEventListener('DOMContentLoaded', () => {
+    const mainContent = document.getElementById('main-content');
+    
+    // Add smooth scroll behavior
+    mainContent.style.scrollBehavior = 'smooth';
+});
