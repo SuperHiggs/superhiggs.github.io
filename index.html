@@ -18,10 +18,10 @@
     <div class="console-container" role="main">
         <nav class="menu" role="navigation" aria-label="Main navigation">
             <ul>
-                <li onclick="changeContent('about')" role="button" tabindex="0" aria-label="View About section">About</li>
-                <li onclick="changeContent('projects')" role="button" tabindex="0" aria-label="View Projects section">Projects</li>
-                <li onclick="changeContent('github')" role="button" tabindex="0" aria-label="View GitHub Status">GitHub Status</li>
-                <li onclick="changeContent('contact')" role="button" tabindex="0" aria-label="View Contact information">Contact</li>
+                <li onclick="changeContent('about')" onkeydown="handleMenuKeyDown(event, 'about')" role="button" tabindex="0" aria-label="View About section">About</li>
+                <li onclick="changeContent('projects')" onkeydown="handleMenuKeyDown(event, 'projects')" role="button" tabindex="0" aria-label="View Projects section">Projects</li>
+                <li onclick="changeContent('github')" onkeydown="handleMenuKeyDown(event, 'github')" role="button" tabindex="0" aria-label="View GitHub Status">GitHub Status</li>
+                <li onclick="changeContent('contact')" onkeydown="handleMenuKeyDown(event, 'contact')" role="button" tabindex="0" aria-label="View Contact information">Contact</li>
             </ul>
         </nav>
         <main class="console" id="console-content" role="region" aria-live="polite" aria-label="Content display area">

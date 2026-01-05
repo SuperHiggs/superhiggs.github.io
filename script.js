@@ -8,8 +8,14 @@ function typeWriter(element, text, speed = 30) {
             if (text.charAt(i) === '<') {
                 // Handle HTML tags
                 const closingTag = text.indexOf('>', i);
-                element.innerHTML += text.substring(i, closingTag + 1);
-                i = closingTag + 1;
+                if (closingTag !== -1) {
+                    element.innerHTML += text.substring(i, closingTag + 1);
+                    i = closingTag + 1;
+                } else {
+                    // No closing tag found, treat as regular character
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                }
             } else {
                 element.innerHTML += text.charAt(i);
                 i++;
@@ -19,6 +25,14 @@ function typeWriter(element, text, speed = 30) {
     }
     
     type();
+}
+
+// Handle keyboard navigation for menu items
+function handleMenuKeyDown(event, option) {
+    if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        changeContent(option);
+    }
 }
 
 // Smooth content transition with fade effect
@@ -125,10 +139,6 @@ async function fetchGitHubStatus() {
 // Smooth scrolling
 document.addEventListener('DOMContentLoaded', () => {
     const consoleContent = document.getElementById('console-content');
-    
-    // Set initial welcome message with typing effect
-    const welcomeMessage = `<h3>Welcome to Super Higgs Terminal</h3><p>Select an option from the menu to explore.</p>`;
-    consoleContent.innerHTML = welcomeMessage;
     
     // Add smooth scroll behavior
     consoleContent.style.scrollBehavior = 'smooth';

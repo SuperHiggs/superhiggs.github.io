@@ -12,6 +12,7 @@
     --border-color: rgba(0, 217, 255, 0.5);
     --glow-color: rgba(0, 217, 255, 0.4);
     --font-main: 'Fira Code', 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
+    --breakpoint-mobile: 768px;
 }
 
 body, html {
