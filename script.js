@@ -126,6 +126,13 @@ document.addEventListener('DOMContentLoaded', () => {
     mainContent.style.scrollBehavior = 'smooth';
 });
 
+// HTML escape function to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
 // Load blog list
 async function loadBlogList() {
     const mainContent = document.getElementById('main-content');
@@ -142,12 +149,16 @@ async function loadBlogList() {
         let blogHTML = '<h3>Blog</h3><div class="blog-posts">';
         
         for (const post of posts) {
+            const escapedFile = escapeHtml(post.file);
+            const escapedTitle = escapeHtml(post.title);
+            const escapedExcerpt = escapeHtml(post.excerpt);
+            
             blogHTML += `
                 <article class="blog-post">
-                    <h4>${post.title}</h4>
+                    <h4>${escapedTitle}</h4>
                     <p class="blog-meta">📅 ${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
-                    <p>${post.excerpt}</p>
-                    <a href="#" class="read-more" onclick="event.preventDefault(); loadBlogPost('${post.file}', '${post.title}');">Read more →</a>
+                    <p>${escapedExcerpt}</p>
+                    <a href="#" class="read-more" onclick="event.preventDefault(); loadBlogPost('${escapedFile}', '${escapedTitle}');">Read more →</a>
                 </article>
             `;
         }
