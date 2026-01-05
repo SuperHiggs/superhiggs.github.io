@@ -39,6 +39,11 @@ async function fetchGitHubStatus() {
         
         for (const repo of repos) {
             const response = await fetch(`https://api.github.com/repos/SuperHiggs/${repo}`);
+            
+            if (!response.ok) {
+                throw new Error(`GitHub API returned ${response.status}: ${response.statusText}`);
+            }
+            
             const data = await response.json();
             
             statusHTML += `
