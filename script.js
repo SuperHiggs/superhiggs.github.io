@@ -158,7 +158,7 @@ async function loadBlogList() {
                     <h4>${escapedTitle}</h4>
                     <p class="blog-meta">📅 ${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                     <p>${escapedExcerpt}</p>
-                    <a href="#" class="read-more" onclick="event.preventDefault(); loadBlogPost('${escapedFile}', '${escapedTitle}');">Read more →</a>
+                    <a href="#" class="read-more" data-file="${escapedFile}" data-title="${escapedTitle}">Read more →</a>
                 </article>
             `;
         }
@@ -169,6 +169,18 @@ async function loadBlogList() {
         mainContent.style.opacity = '0';
         setTimeout(() => {
             mainContent.innerHTML = blogHTML;
+            
+            // Add event listeners to read-more links
+            const readMoreLinks = mainContent.querySelectorAll('.read-more');
+            readMoreLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const file = link.getAttribute('data-file');
+                    const title = link.getAttribute('data-title');
+                    loadBlogPost(file, title);
+                });
+            });
+            
             mainContent.style.opacity = '1';
             mainContent.scrollTop = 0;
         }, 200);
@@ -201,10 +213,19 @@ async function loadBlogPost(filename, title) {
             
             mainContent.innerHTML = `
                 <div class="blog-post-full">
-                    <a href="#" class="back-link" onclick="event.preventDefault(); changeContent('blog');">← Back to Blog</a>
+                    <a href="#" class="back-link">← Back to Blog</a>
                     ${html}
                 </div>
             `;
+            
+            // Add event listener to back link
+            const backLink = mainContent.querySelector('.back-link');
+            if (backLink) {
+                backLink.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    changeContent('blog');
+                });
+            }
             
             mainContent.style.opacity = '1';
             mainContent.scrollTop = 0;
@@ -213,8 +234,18 @@ async function loadBlogPost(filename, title) {
             mainContent.innerHTML = `
                 <h3>Blog Post</h3>
                 <p style="color: var(--primary-color);">Unable to load blog post. Please try again later.</p>
-                <a href="#" class="back-link" onclick="event.preventDefault(); changeContent('blog');">← Back to Blog</a>
+                <a href="#" class="back-link">← Back to Blog</a>
             `;
+            
+            // Add event listener to back link in error case
+            const backLink = mainContent.querySelector('.back-link');
+            if (backLink) {
+                backLink.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    changeContent('blog');
+                });
+            }
+            
             mainContent.style.opacity = '1';
         }
     }, 300);
