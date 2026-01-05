@@ -103,7 +103,7 @@ async function fetchGitHubStatus() {
     } catch (error) {
         consoleContent.innerHTML = `
             <h3>GitHub Repository Status</h3>
-            <p style="color: var(--primary-color);">Error loading repository status: ${error.message}</p>
+            <p style="color: var(--primary-color);">Unable to load repository status. Please try again later.</p>
         `;
     }
 }
