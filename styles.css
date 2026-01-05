@@ -1,22 +1,24 @@
-/* CSS Custom Properties for Modern Theming */
+/* CSS Custom Properties - Carbon Steel Katana Theme */
 :root {
-    --primary-color: #00d9ff;
-    --secondary-color: #00ffff;
-    --accent-color: #0099ff;
-    --bg-dark: #0a0e27;
-    --bg-darker: #050811;
-    --bg-console: rgba(10, 14, 39, 0.85);
-    --bg-menu: rgba(15, 20, 45, 0.9);
-    --text-primary: #e0f7ff;
-    --text-secondary: #00d9ff;
-    --border-color: rgba(0, 217, 255, 0.5);
-    --glow-color: rgba(0, 217, 255, 0.4);
+    --primary-color: #c0c0c0;
+    --secondary-color: #e8e8e8;
+    --accent-color: #a8a8a8;
+    --steel-shine: #d4d4d4;
+    --bg-dark: #0d0d0d;
+    --bg-darker: #000000;
+    --bg-console: rgba(13, 13, 13, 0.92);
+    --bg-menu: rgba(20, 20, 20, 0.95);
+    --text-primary: #e0e0e0;
+    --text-secondary: #c0c0c0;
+    --border-color: rgba(192, 192, 192, 0.6);
+    --glow-color: rgba(192, 192, 192, 0.3);
+    --shadow-steel: rgba(192, 192, 192, 0.2);
     --font-main: 'Fira Code', 'JetBrains Mono', 'Consolas', 'Courier New', monospace;
     --breakpoint-mobile: 768px;
 }
 
 body, html {
-    background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 50%, #0d1128 100%);
+    background: linear-gradient(135deg, var(--bg-darker) 0%, #0a0a0a 50%, #121212 100%);
     margin: 0;
     height: 100%;
     font-family: var(--font-main);
@@ -27,7 +29,7 @@ body, html {
     overflow: hidden;
 }
 
-/* Animated background pattern */
+/* Metallic sheen pattern */
 body::before {
     content: '';
     position: fixed;
@@ -36,8 +38,9 @@ body::before {
     width: 100%;
     height: 100%;
     background: 
-        radial-gradient(circle at 20% 50%, rgba(0, 217, 255, 0.03) 0%, transparent 50%),
-        radial-gradient(circle at 80% 50%, rgba(0, 255, 255, 0.03) 0%, transparent 50%);
+        linear-gradient(45deg, transparent 48%, rgba(192, 192, 192, 0.02) 50%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, rgba(192, 192, 192, 0.02) 50%, transparent 52%);
+    background-size: 50px 50px;
     pointer-events: none;
     z-index: 0;
 }
@@ -47,13 +50,14 @@ body::before {
     height: 85vh;
     width: 90vw;
     max-width: 1400px;
-    border: 2px solid var(--border-color);
-    border-radius: 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
     overflow: hidden;
     box-shadow: 
-        0 0 20px var(--glow-color),
-        0 0 40px rgba(0, 217, 255, 0.2),
-        inset 0 0 60px rgba(0, 217, 255, 0.05);
+        0 2px 30px rgba(0, 0, 0, 0.8),
+        0 0 20px var(--shadow-steel),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(10px);
     background: var(--bg-console);
     transition: all 0.3s ease;
@@ -64,10 +68,11 @@ body::before {
 
 .console-container:hover {
     box-shadow: 
-        0 0 30px var(--glow-color),
-        0 0 60px rgba(0, 217, 255, 0.3),
-        inset 0 0 60px rgba(0, 217, 255, 0.08);
-    border-color: var(--primary-color);
+        0 2px 40px rgba(0, 0, 0, 0.9),
+        0 0 30px var(--shadow-steel),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.5);
+    border-color: var(--steel-shine);
 }
 
 .menu {
@@ -92,33 +97,45 @@ body::before {
     padding: 16px 20px;
     margin: 8px 0;
     cursor: pointer;
-    border: 2px solid transparent;
-    border-radius: 10px;
+    border: 1px solid transparent;
+    border-radius: 1px;
     text-align: center;
     font-weight: 500;
     font-size: 16px;
-    letter-spacing: 0.5px;
-    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    transition: all 0.2s ease;
     position: relative;
     overflow: hidden;
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.5), rgba(20, 20, 20, 0.5));
 }
 
 .menu li::before {
-    content: '>';
+    content: '▸';
     position: absolute;
     left: 10px;
     opacity: 0;
-    transition: all 0.3s ease;
-    color: var(--primary-color);
+    transition: all 0.2s ease;
+    color: var(--steel-shine);
+}
+
+.menu li::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(192, 192, 192, 0.1), transparent);
+    transition: left 0.3s ease;
 }
 
 .menu li:hover {
-    background: linear-gradient(135deg, rgba(0, 217, 255, 0.15), rgba(0, 255, 255, 0.1));
-    border: 2px solid var(--primary-color);
+    background: linear-gradient(135deg, rgba(50, 50, 50, 0.7), rgba(30, 30, 30, 0.7));
+    border: 1px solid var(--border-color);
     box-shadow: 
-        0 0 15px var(--glow-color),
-        inset 0 0 15px rgba(0, 217, 255, 0.1);
-    transform: translateX(5px);
+        0 0 15px rgba(192, 192, 192, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateX(3px);
     padding-left: 30px;
 }
 
@@ -127,8 +144,15 @@ body::before {
     left: 15px;
 }
 
+.menu li:hover::after {
+    left: 100%;
+}
+
 .menu li:active {
-    transform: translateX(5px) scale(0.98);
+    transform: translateX(3px) scale(0.98);
+    box-shadow: 
+        0 0 10px rgba(192, 192, 192, 0.15),
+        inset 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .console {
@@ -142,38 +166,40 @@ body::before {
     line-height: 1.8;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar - Steel aesthetic */
 .console::-webkit-scrollbar,
 .menu::-webkit-scrollbar {
-    width: 10px;
+    width: 8px;
 }
 
 .console::-webkit-scrollbar-track,
 .menu::-webkit-scrollbar-track {
-    background: rgba(0, 217, 255, 0.05);
-    border-radius: 10px;
+    background: rgba(30, 30, 30, 0.5);
+    border-radius: 0;
 }
 
 .console::-webkit-scrollbar-thumb,
 .menu::-webkit-scrollbar-thumb {
-    background: var(--primary-color);
-    border-radius: 10px;
-    box-shadow: 0 0 10px var(--glow-color);
+    background: linear-gradient(180deg, var(--accent-color), var(--primary-color));
+    border-radius: 0;
+    border: 1px solid rgba(0, 0, 0, 0.5);
 }
 
 .console::-webkit-scrollbar-thumb:hover,
 .menu::-webkit-scrollbar-thumb:hover {
-    background: var(--secondary-color);
+    background: linear-gradient(180deg, var(--steel-shine), var(--secondary-color));
 }
 
-/* Typography enhancements */
+/* Typography enhancements - Katana sharp */
 .console h3 {
     color: var(--secondary-color);
     font-size: 24px;
     margin: 0 0 20px 0;
     font-weight: 600;
-    text-shadow: 0 0 10px var(--glow-color);
-    letter-spacing: 1px;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    letter-spacing: 2px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
 }
 
 .console ul {
@@ -198,25 +224,33 @@ body::before {
 
 .console ul li:hover {
     padding-left: 30px;
-    color: var(--secondary-color);
+    color: var(--steel-shine);
 }
 
-/* GitHub status styles */
+/* GitHub status styles - Steel cards */
 .repo-status {
     margin: 24px 0;
     padding: 20px;
-    background: rgba(0, 217, 255, 0.05);
-    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.8), rgba(20, 20, 20, 0.8));
+    border-radius: 2px;
     border: 1px solid var(--border-color);
+    border-left: 3px solid var(--primary-color);
     transition: all 0.3s ease;
     animation: slideIn 0.4s ease-out;
+    box-shadow: 
+        0 2px 10px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .repo-status:hover {
-    background: rgba(0, 217, 255, 0.08);
-    border-color: var(--primary-color);
-    box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, rgba(40, 40, 40, 0.9), rgba(30, 30, 30, 0.9));
+    border-color: var(--steel-shine);
+    border-left-color: var(--steel-shine);
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.6),
+        0 0 20px rgba(192, 192, 192, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateX(5px);
 }
 
 .repo-status h4 {
@@ -224,7 +258,8 @@ body::before {
     margin: 0 0 12px 0;
     font-size: 18px;
     font-weight: 600;
-    text-shadow: 0 0 8px var(--glow-color);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    letter-spacing: 1px;
 }
 
 .repo-status p {
@@ -236,19 +271,19 @@ body::before {
 .repo-status a {
     color: var(--primary-color);
     text-decoration: none;
-    border-bottom: 1px dotted var(--primary-color);
-    transition: all 0.3s ease;
+    border-bottom: 1px solid var(--primary-color);
+    transition: all 0.2s ease;
 }
 
 .repo-status a:hover {
-    color: var(--secondary-color);
-    text-shadow: 0 0 8px var(--glow-color);
-    border-bottom-style: solid;
+    color: var(--steel-shine);
+    border-bottom-color: var(--steel-shine);
+    text-shadow: 0 0 5px rgba(192, 192, 192, 0.3);
 }
 
 .repo-status hr {
     border: 0;
-    border-top: 1px dashed var(--border-color);
+    border-top: 1px solid var(--border-color);
     margin: 20px 0;
     opacity: 0.5;
 }
