@@ -15,11 +15,51 @@ function changeContent(option) {
                 <li>Project 3: Cloud-Based Solution</li>
             </ul>
         `;
+    } else if (option === 'github') {
+        consoleContent.innerHTML = `
+            <h3>GitHub Repository Status</h3>
+            <p>Loading...</p>
+        `;
+        fetchGitHubStatus();
     } else if (option === 'contact') {
         consoleContent.innerHTML = `
             <h3>Contact</h3>
             <p>Email: superhiggs@example.com</p>
             <p>Phone: +123 456 7890</p>
+        `;
+    }
+}
+
+async function fetchGitHubStatus() {
+    const consoleContent = document.getElementById('console-content');
+    const repos = ['superhiggs.github.io']; // Add more repos as needed
+    
+    try {
+        let statusHTML = '<h3>GitHub Repository Status</h3>';
+        
+        for (const repo of repos) {
+            const response = await fetch(`https://api.github.com/repos/SuperHiggs/${repo}`);
+            const data = await response.json();
+            
+            statusHTML += `
+                <div class="repo-status">
+                    <h4>📦 ${data.name}</h4>
+                    <p>⭐ Stars: ${data.stargazers_count}</p>
+                    <p>🔀 Forks: ${data.forks_count}</p>
+                    <p>🐛 Open Issues: ${data.open_issues_count}</p>
+                    <p>📅 Last Updated: ${new Date(data.updated_at).toLocaleDateString()}</p>
+                    <p>📝 ${data.description || 'No description'}</p>
+                    <p>🔗 <a href="${data.html_url}" target="_blank">${data.html_url}</a></p>
+                    <hr>
+                </div>
+            `;
+        }
+        
+        consoleContent.innerHTML = statusHTML;
+    } catch (error) {
+        consoleContent.innerHTML = `
+            <h3>GitHub Repository Status</h3>
+            <p style="color: red;">Error loading repository status: ${error.message}</p>
         `;
     }
 }
