@@ -12,6 +12,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     
+    <!-- Markdown Parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="marked.min.js"></script>
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -21,6 +25,7 @@
                 <li onclick="changeContent('about')" onkeydown="handleMenuKeyDown(event, 'about')" role="button" tabindex="0" aria-label="View About section">About</li>
                 <li onclick="changeContent('projects')" onkeydown="handleMenuKeyDown(event, 'projects')" role="button" tabindex="0" aria-label="View Projects section">Projects</li>
                 <li onclick="changeContent('github')" onkeydown="handleMenuKeyDown(event, 'github')" role="button" tabindex="0" aria-label="View GitHub Status">GitHub Status</li>
+                <li onclick="changeContent('blog')" onkeydown="handleMenuKeyDown(event, 'blog')" role="button" tabindex="0" aria-label="View Blog">Blog</li>
                 <li onclick="changeContent('contact')" onkeydown="handleMenuKeyDown(event, 'contact')" role="button" tabindex="0" aria-label="View Contact information">Contact</li>
             </ul>
         </nav>

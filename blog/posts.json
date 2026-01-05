@@ -1,0 +1,16 @@
+[
+  {
+    "id": "first-post",
+    "title": "Welcome to My Blog",
+    "date": "2026-01-05",
+    "file": "2026-01-05-first-post.md",
+    "excerpt": "Introducing my new blog section where I'll share thoughts on software engineering, technology, and innovation."
+  },
+  {
+    "id": "second-post",
+    "title": "Building a Modern Portfolio Site",
+    "date": "2025-12-28",
+    "file": "2025-12-28-second-post.md",
+    "excerpt": "How I built this portfolio site using vanilla JavaScript, CSS custom properties, and a steel-inspired design system."
+  }
+]

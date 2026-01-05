@@ -40,6 +40,11 @@ function changeContent(option) {
                 <h3>GitHub Repository Status</h3>
                 <p class="loading">Loading repository information...</p>
             `;
+        } else if (option === 'blog') {
+            content = `
+                <h3>Blog</h3>
+                <p class="loading">Loading blog posts...</p>
+            `;
         } else if (option === 'contact') {
             content = `
                 <h3>Contact</h3>
@@ -58,6 +63,11 @@ function changeContent(option) {
             // Fetch GitHub status if needed
             if (option === 'github') {
                 fetchGitHubStatus();
+            }
+            
+            // Load blog list if needed
+            if (option === 'blog') {
+                loadBlogList();
             }
         }, 50);
     }, 300);
@@ -115,3 +125,128 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add smooth scroll behavior
     mainContent.style.scrollBehavior = 'smooth';
 });
+
+// HTML escape function to prevent XSS
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// Load blog list
+async function loadBlogList() {
+    const mainContent = document.getElementById('main-content');
+    
+    try {
+        const response = await fetch('blog/posts.json');
+        
+        if (!response.ok) {
+            throw new Error(`Failed to load blog posts: ${response.status}`);
+        }
+        
+        const posts = await response.json();
+        
+        let blogHTML = '<h3>Blog</h3><div class="blog-posts">';
+        
+        for (const post of posts) {
+            const escapedFile = escapeHtml(post.file);
+            const escapedTitle = escapeHtml(post.title);
+            const escapedExcerpt = escapeHtml(post.excerpt);
+            
+            blogHTML += `
+                <article class="blog-post">
+                    <h4>${escapedTitle}</h4>
+                    <p class="blog-meta">📅 ${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    <p>${escapedExcerpt}</p>
+                    <a href="#" class="read-more" data-file="${escapedFile}" data-title="${escapedTitle}">Read more →</a>
+                </article>
+            `;
+        }
+        
+        blogHTML += '</div>';
+        
+        // Smooth transition
+        mainContent.style.opacity = '0';
+        setTimeout(() => {
+            mainContent.innerHTML = blogHTML;
+            
+            // Add event listeners to read-more links
+            const readMoreLinks = mainContent.querySelectorAll('.read-more');
+            readMoreLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const file = link.getAttribute('data-file');
+                    const title = link.getAttribute('data-title');
+                    loadBlogPost(file, title);
+                });
+            });
+            
+            mainContent.style.opacity = '1';
+            mainContent.scrollTop = 0;
+        }, 200);
+        
+    } catch (error) {
+        mainContent.innerHTML = `
+            <h3>Blog</h3>
+            <p style="color: var(--primary-color);">Unable to load blog posts. Please try again later.</p>
+        `;
+    }
+}
+
+// Load individual blog post
+async function loadBlogPost(filename, title) {
+    const mainContent = document.getElementById('main-content');
+    
+    // Show loading state
+    mainContent.style.opacity = '0';
+    
+    setTimeout(async () => {
+        try {
+            const response = await fetch(`blog/${filename}`);
+            
+            if (!response.ok) {
+                throw new Error(`Failed to load blog post: ${response.status}`);
+            }
+            
+            const markdown = await response.text();
+            const html = marked.parse(markdown);
+            
+            mainContent.innerHTML = `
+                <div class="blog-post-full">
+                    <a href="#" class="back-link">← Back to Blog</a>
+                    ${html}
+                </div>
+            `;
+            
+            // Add event listener to back link
+            const backLink = mainContent.querySelector('.back-link');
+            if (backLink) {
+                backLink.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    changeContent('blog');
+                });
+            }
+            
+            mainContent.style.opacity = '1';
+            mainContent.scrollTop = 0;
+            
+        } catch (error) {
+            mainContent.innerHTML = `
+                <h3>Blog Post</h3>
+                <p style="color: var(--primary-color);">Unable to load blog post. Please try again later.</p>
+                <a href="#" class="back-link">← Back to Blog</a>
+            `;
+            
+            // Add event listener to back link in error case
+            const backLink = mainContent.querySelector('.back-link');
+            if (backLink) {
+                backLink.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    changeContent('blog');
+                });
+            }
+            
+            mainContent.style.opacity = '1';
+        }
+    }, 300);
+}
