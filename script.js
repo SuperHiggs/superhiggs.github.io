@@ -40,6 +40,11 @@ function changeContent(option) {
                 <h3>GitHub Repository Status</h3>
                 <p class="loading">Loading repository information...</p>
             `;
+        } else if (option === 'blog') {
+            content = `
+                <h3>Blog</h3>
+                <p class="loading">Loading blog posts...</p>
+            `;
         } else if (option === 'contact') {
             content = `
                 <h3>Contact</h3>
@@ -58,6 +63,11 @@ function changeContent(option) {
             // Fetch GitHub status if needed
             if (option === 'github') {
                 fetchGitHubStatus();
+            }
+            
+            // Load blog list if needed
+            if (option === 'blog') {
+                loadBlogList();
             }
         }, 50);
     }, 300);
@@ -115,3 +125,86 @@ document.addEventListener('DOMContentLoaded', () => {
     // Add smooth scroll behavior
     mainContent.style.scrollBehavior = 'smooth';
 });
+
+// Load blog list
+async function loadBlogList() {
+    const mainContent = document.getElementById('main-content');
+    
+    try {
+        const response = await fetch('blog/posts.json');
+        
+        if (!response.ok) {
+            throw new Error(`Failed to load blog posts: ${response.status}`);
+        }
+        
+        const posts = await response.json();
+        
+        let blogHTML = '<h3>Blog</h3><div class="blog-posts">';
+        
+        for (const post of posts) {
+            blogHTML += `
+                <article class="blog-post">
+                    <h4>${post.title}</h4>
+                    <p class="blog-meta">📅 ${new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                    <p>${post.excerpt}</p>
+                    <a href="#" class="read-more" onclick="event.preventDefault(); loadBlogPost('${post.file}', '${post.title}');">Read more →</a>
+                </article>
+            `;
+        }
+        
+        blogHTML += '</div>';
+        
+        // Smooth transition
+        mainContent.style.opacity = '0';
+        setTimeout(() => {
+            mainContent.innerHTML = blogHTML;
+            mainContent.style.opacity = '1';
+            mainContent.scrollTop = 0;
+        }, 200);
+        
+    } catch (error) {
+        mainContent.innerHTML = `
+            <h3>Blog</h3>
+            <p style="color: var(--primary-color);">Unable to load blog posts. Please try again later.</p>
+        `;
+    }
+}
+
+// Load individual blog post
+async function loadBlogPost(filename, title) {
+    const mainContent = document.getElementById('main-content');
+    
+    // Show loading state
+    mainContent.style.opacity = '0';
+    
+    setTimeout(async () => {
+        try {
+            const response = await fetch(`blog/${filename}`);
+            
+            if (!response.ok) {
+                throw new Error(`Failed to load blog post: ${response.status}`);
+            }
+            
+            const markdown = await response.text();
+            const html = marked.parse(markdown);
+            
+            mainContent.innerHTML = `
+                <div class="blog-post-full">
+                    <a href="#" class="back-link" onclick="event.preventDefault(); changeContent('blog');">← Back to Blog</a>
+                    ${html}
+                </div>
+            `;
+            
+            mainContent.style.opacity = '1';
+            mainContent.scrollTop = 0;
+            
+        } catch (error) {
+            mainContent.innerHTML = `
+                <h3>Blog Post</h3>
+                <p style="color: var(--primary-color);">Unable to load blog post. Please try again later.</p>
+                <a href="#" class="back-link" onclick="event.preventDefault(); changeContent('blog');">← Back to Blog</a>
+            `;
+            mainContent.style.opacity = '1';
+        }
+    }, 300);
+}
