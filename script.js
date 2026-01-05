@@ -9,12 +9,12 @@ function handleMenuKeyDown(event, option) {
 // Smooth content transition with fade effect
 // Note: All content is hardcoded and trusted, so innerHTML usage is safe here
 function changeContent(option) {
-    const consoleContent = document.getElementById('console-content');
+    const mainContent = document.getElementById('main-content');
     
     // Fade out
-    consoleContent.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-    consoleContent.style.opacity = '0';
-    consoleContent.style.transform = 'translateY(-10px)';
+    mainContent.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+    mainContent.style.opacity = '0';
+    mainContent.style.transform = 'translateY(-10px)';
     
     setTimeout(() => {
         let content = '';
@@ -48,12 +48,12 @@ function changeContent(option) {
             `;
         }
         
-        consoleContent.innerHTML = content;
+        mainContent.innerHTML = content;
         
         // Fade in
         setTimeout(() => {
-            consoleContent.style.opacity = '1';
-            consoleContent.style.transform = 'translateY(0)';
+            mainContent.style.opacity = '1';
+            mainContent.style.transform = 'translateY(0)';
             
             // Fetch GitHub status if needed
             if (option === 'github') {
@@ -64,7 +64,7 @@ function changeContent(option) {
 }
 
 async function fetchGitHubStatus() {
-    const consoleContent = document.getElementById('console-content');
+    const mainContent = document.getElementById('main-content');
     const repos = ['superhiggs.github.io']; // Add more repos as needed
     
     try {
@@ -94,14 +94,14 @@ async function fetchGitHubStatus() {
         }
         
         // Smooth transition for GitHub data
-        consoleContent.style.opacity = '0';
+        mainContent.style.opacity = '0';
         setTimeout(() => {
-            consoleContent.innerHTML = statusHTML;
-            consoleContent.style.opacity = '1';
+            mainContent.innerHTML = statusHTML;
+            mainContent.style.opacity = '1';
         }, 200);
         
     } catch (error) {
-        consoleContent.innerHTML = `
+        mainContent.innerHTML = `
             <h3>GitHub Repository Status</h3>
             <p style="color: var(--primary-color);">Unable to load repository status. Please try again later.</p>
         `;
@@ -110,8 +110,8 @@ async function fetchGitHubStatus() {
 
 // Smooth scrolling
 document.addEventListener('DOMContentLoaded', () => {
-    const consoleContent = document.getElementById('console-content');
+    const mainContent = document.getElementById('main-content');
     
     // Add smooth scroll behavior
-    consoleContent.style.scrollBehavior = 'smooth';
+    mainContent.style.scrollBehavior = 'smooth';
 });
